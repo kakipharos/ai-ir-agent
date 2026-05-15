@@ -1,144 +1,188 @@
-# AI IR Agent: Context-Aware Agent with Memory, RAG, Web Search, and Context Ranking
+# AI IR Agent
 
-This project implements a small AI agent focused on **Information Retrieval (IR)**.  
-The agent improves its answers by retrieving context from:
+Small AI agent project focused on information retrieval and context management.
 
-1. Long-term working memory
-2. Local documents using RAG-style retrieval
-3. Web search
-4. Tool actions, such as saving new memory
+The goal of this project was to better understand how modern AI agents retrieve and manage context instead of relying only on the language model’s internal knowledge.
 
-The main idea is that an AI agent should not only answer from the model's internal knowledge. It should actively collect relevant context before answering.
+The system combines:
+- long-term memory
+- local document retrieval (RAG)
+- web search
+- context ranking
+
+---
 
 ## Features
 
 - CLI chat interface
-- Long-term memory stored in `data/memory/memory.json`
-- Local document retrieval from `data/documents`
-- PDF, TXT, and Markdown document loading
-- Embedding-based retrieval when an OpenAI-compatible embedding model is available
-- TF-IDF fallback retrieval if embeddings are unavailable
-- Simple web search tool using DuckDuckGo HTML search
-- Context ranking based on relevance, freshness, and source type
-- Debug mode showing which context items were selected
+- Long-term memory stored in JSON
+- Local document retrieval from PDF, TXT, and Markdown files
+- Embedding-based retrieval using OpenAI-compatible models
+- TF-IDF fallback retrieval when embeddings are unavailable
+- Simple web search tool
+- Context ranking system
+- Debug mode for inspecting retrieved context
 
-## Architecture
+---
 
-```text
-User question
-   ↓
-Agent decides retrieval needs
-   ↓
-Memory search + Document search + Web search
-   ↓
-Context Manager ranks context
-   ↓
-LLM receives selected context
-   ↓
-Final answer with sources
-```
+## Project Structure
+
+ai-ir-agent/
+├── data/
+│   ├── documents/
+│   └── memory/
+├── demo/
+├── src/
+├── README.md
+├── report.md
+└── requirements.txt
+
+---
 
 ## Setup
 
-```bash
-git clone <your-repo-link>
+Clone the repository:
+
+git clone https://github.com/kakipharos/ai-ir-agent.git
 cd ai-ir-agent
 
+Create a virtual environment:
+
 python -m venv .venv
-source .venv/bin/activate   # macOS/Linux
-# .venv\Scripts\activate  # Windows
+
+Activate the environment:
+
+macOS/Linux:
+source .venv/bin/activate
+
+Windows:
+.venv\Scripts\activate
+
+Install dependencies:
 
 pip install -r requirements.txt
 
+Create a .env file:
+
 cp .env.example .env
-```
 
-Edit `.env` and add your API key:
+Add your API key:
 
-```bash
-OPENAI_API_KEY=your_key_here
-```
+OPENAI_API_KEY=your_api_key_here
 
-If using Berget.AI or another OpenAI-compatible endpoint, also set:
+If using Berget.AI or another OpenAI-compatible provider:
 
-```bash
-OPENAI_BASE_URL=your_provider_base_url
+OPENAI_BASE_URL=your_provider_url
 OPENAI_CHAT_MODEL=your_chat_model
 OPENAI_EMBEDDING_MODEL=your_embedding_model
-```
 
-## Add Documents
+---
 
-Put `.txt`, `.md`, or `.pdf` files inside:
+## Adding Documents
 
-```text
+Place .txt, .md, or .pdf files inside:
+
 data/documents/
-```
 
 Example:
 
-```bash
-echo "Transformers use attention to connect tokens in a sequence." > data/documents/lecture_notes.txt
-```
+echo "Transformers use attention mechanisms to connect tokens in a sequence." > data/documents/lecture_notes.txt
 
-Then build the document index:
+Build the retrieval index:
 
-```bash
 python -m src.cli index
-```
 
-## Run the Agent
+---
 
-```bash
+## Running the Agent
+
+Start the chat interface:
+
 python -m src.cli chat
-```
 
-Useful commands inside chat:
+Useful commands:
 
-```text
-/memory remember that I prefer concise answers
 /debug on
 /debug off
 /exit
-```
 
-## Demo Questions
+Memory example:
 
-Try these:
-
-```text
 Remember that I prefer concise technical answers.
-```
 
-```text
+---
+
+## Example Questions
+
 What do you remember about my preferences?
-```
 
-```text
-Explain attention based on the documents.
-```
+Explain attention mechanisms based on the local documents.
 
-```text
-Search the web for recent AI agent news and summarize it.
-```
+Search the web for recent AI agent news.
 
-```text
 Compare the local document information with current web information.
-```
 
-## What Makes This an IR Agent?
+---
 
-The system retrieves information before answering. It uses multiple context sources and ranks them before sending them to the model. This is different from a normal chatbot because the answer depends on external context gathered by tools.
+## Architecture
 
-## Report and Video
+User question
+   ↓
+Memory retrieval
+Document retrieval
+Web search
+   ↓
+Context ranking
+   ↓
+LLM response generation
 
-The report template is in `report.md`.
+The agent retrieves context from multiple sources before generating a response. Retrieved context is ranked before being added to the final prompt.
 
-For the video, demonstrate:
+---
 
-1. Installing/running the project
-2. Adding a document and indexing it
-3. Asking a document-based question
-4. Saving and retrieving memory
-5. Running a web-search question
-6. Showing debug output from the context ranking system
+## Context Ranking
+
+One part of the project was experimenting with context management.
+
+The agent scores retrieved context based on:
+- relevance
+- source type
+- freshness
+
+Debug mode can be enabled to inspect which context items were selected.
+
+---
+
+## Why I Built This
+
+This project was created to explore how AI agents use information retrieval systems to improve reasoning and answer quality.
+
+Instead of building only a chatbot, I wanted to experiment with:
+- memory systems
+- retrieval pipelines
+- tool usage
+- context selection
+
+A major focus of the project was understanding how retrieval affects the quality of generated answers.
+
+---
+
+## Demo
+
+The demo video shows:
+1. Running the agent
+2. Adding and indexing documents
+3. Memory retrieval
+4. Web search
+5. Context ranking in debug mode
+
+Video link:
+TODO
+
+---
+
+## Report
+
+The project report is included in:
+
+report.md
