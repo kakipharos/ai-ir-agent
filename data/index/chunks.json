@@ -1,0 +1,9 @@
+[
+  {
+    "id": "sample_agent_notes.md:0",
+    "title": "sample_agent_notes.md",
+    "path": "data/documents/sample_agent_notes.md",
+    "content": "# Sample Notes About AI Agents An AI agent is a system that can reason about a task, retrieve context, use tools, and produce an answer or action. Information Retrieval is important for agents because language models have limited context windows and may not know current or private information. A useful agent can retrieve information from memory, documents, web search, databases, or APIs. Context ranking helps the agent choose the most relevant information instead of putting everything into the prompt. Compaction means summarizing older information so it can still be useful without using too many tokens.",
+    "file_hash": "7b0a9d755415b4bd99e4db51ab0f13fd9eb9a93170bbab766bb08a75d5c2dc3f"
+  }
+]
